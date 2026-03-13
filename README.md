@@ -1,5 +1,5 @@
 # Handcraft-Haven
 Team members:
-Jordan Sanchez
-Wisdom Effiong
-Christian Laguna
+Jordan Sanchez,
+Wisdom Effiong,
+Christian Laguna,
