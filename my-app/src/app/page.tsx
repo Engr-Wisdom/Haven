@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from "next/image";
 
 export default function Home() {
@@ -63,3 +64,17 @@ export default function Home() {
     </div>
   );
 }
+=======
+import React from 'react'
+import Navbar from '@/app/ui/navbar'
+
+const page = () => {
+  return (
+    <div>
+      <h1>Home Page</h1>
+    </div>
+  )
+}
+
+export default page
+>>>>>>> 38e635e (Navbar)
