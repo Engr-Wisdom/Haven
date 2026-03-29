@@ -7,7 +7,6 @@ import { products } from "@/data/cards"
 import Card from "@/app/ui/card"
 
 const Home = () => {
-  console.log(products)
   const router = useRouter()
   return (
     <div className='bg-gray-200 text-black p-4 sm:p-10'>
@@ -27,7 +26,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* <Card products={products} /> */}
+      <Card products={products} />
     </div>
   )
 }
