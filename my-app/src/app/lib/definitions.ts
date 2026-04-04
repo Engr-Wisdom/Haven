@@ -9,3 +9,7 @@ export type Product = {
     rating: number;
     n_ratings: number;
 };
+
+export type Products = {
+    products: Array<Product>;
+}

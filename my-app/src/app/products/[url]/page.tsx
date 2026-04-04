@@ -2,7 +2,7 @@
 import { getProduct, getIdProduct } from "@/app/lib/data";
 import NotFound from "./not-found";
 import ProductView from "@/app/ui/products/product-view";
-import { Product } from "@/app/lib/definitions.ts";
+import { Product } from "@/app/lib/definitions";
 export default async function page(props: { params: Promise<{ url: string }> }) {
     ///this is the route to call the products
     //there is a table seo_urls where you can found each route for the products related to product id from the products table

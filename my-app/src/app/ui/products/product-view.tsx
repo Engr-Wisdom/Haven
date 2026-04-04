@@ -1,4 +1,4 @@
-import { Product } from "../../lib/definitions.ts"
+import { Product } from "../../lib/definitions"
 import Image from "next/image.js"
 import BuyButton from "./add-cart-button"
 import Rating from "./rating"
@@ -27,7 +27,7 @@ export default function ProductView({ product }: { product: Product }) {
                 <span className="text-sm mr-1 text-gray-400">USD</span><span className="text-2xl font-bold">${product.price}</span>
                 <p className="my-2">{product.description}</p>
                 <p className="font-bold text-sm inline min-[440px]:block lg:inline mr-3"><span>Sold by </span><span className="text-blue-600">{product.store}</span></p>
-                <Rating rating={product.rating} n_ratings={ product.n_ratings} />
+                <Rating rating={product.rating} n_ratings={product.n_ratings} />
                 <BuyButton id={product.id} />
             </div>
 

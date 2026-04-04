@@ -1,8 +1,9 @@
 import { promises as fs } from 'fs';
 import { products } from '@/data/cards';
 import postgres from 'postgres';
-import { Product } from './definitions.ts';
+import { Product } from './definitions';
 const sql = postgres(process.env.DATABASE_URL_DATABASE_URL!, { ssl: 'require' });
+
 
 
 
@@ -37,7 +38,7 @@ export async function getProduct(id: number) {
 
         return product;
     } catch (err) {
-        console.error('Database Error:', err); 
+        console.error('Database Error:', err);
         throw new Error(`Failed to fetch c. ${id} object`);
     }
 }
