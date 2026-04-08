@@ -5,12 +5,19 @@ import { Product, Store } from './definitions';
 const sql = postgres(process.env.DATABASE_URL_DATABASE_URL!, { ssl: 'require' });
 import { siteConfig } from '../constants/site';
 import { off } from 'process';
+import { formatFloat } from './utils';
 
 const BASE_PRODUCT_SQL = sql`SELECT p.*, c.name AS category, s.name AS store, p.seo_url AS url, s.seo_url AS store_url FROM products AS p
         JOIN categories as c
         ON p.category_id = c.id
         JOIN stores as s
         ON p.store_id = s.id`;
+const STORE_BASE_QUERY = sql`SELECT s.*, AVG(r.rating) as avg_rating FROM ratings as r
+JOIN products as p
+ON r.product_id = p.id
+JOIN stores as s
+ON s.id = p.store_id
+GROUP BY s.id`;
 
 const { page_pagination } = siteConfig;
 
@@ -68,7 +75,7 @@ export async function getProductsByCategory(category: string, currentPage: numbe
         let productsPromises = data.map(async (product) => {
             const rating = await sql`SELECT AVG(rating) AS rating, COUNT(rating) as n_ratings FROM ratings WHERE product_id = ${product.id}`;
             return {
-                ...product, rating: Math.round(rating[0].rating * 100) / 100,
+                ...product, rating: formatFloat(rating[0].rating),
                 n_ratings: rating[0].n_ratings
             }
         });
@@ -163,7 +170,7 @@ export async function getStores(currentPage: number) {
     // await new Promise((resolve) => setTimeout(resolve, 3000));
     const offset = (currentPage - 1) * page_pagination
     try {
-        const stores = await sql<Store[]>`SELECT * FROM stores
+        const stores = await sql<Store[]>`${STORE_BASE_QUERY}
         LIMIT ${page_pagination} OFFSET ${offset}
         `;
         return stores;

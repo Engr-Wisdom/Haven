@@ -35,3 +35,7 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 export function capitalize(word: string) {
     return word[0].toUpperCase() + word.slice(1)
 }
+
+export function formatFloat(n: number) {
+    return Math.round(n * 100) / 100;
+}

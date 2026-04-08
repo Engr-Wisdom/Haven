@@ -17,4 +17,5 @@ export type Store = {
     bio: string;
     image: string;
     seo_url: string;
+    avg_rating: number
 };
