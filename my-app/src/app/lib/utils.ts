@@ -40,18 +40,16 @@ export function formatFloat(n: number) {
     return Math.round(n * 100) / 100;
 }
 
-export function numberToStars(rating: number) {
-  let stars = ""
-
-  // full stars
-  for (let i = 0; i < rating; i++) {
-    stars += "⭐"
-  }
-
-  // empty stars (up to 5)
-  for (let i = rating; i < 5; i++) {
-    stars += "☆"
-  }
-
-  return stars
+export function numberToHearts(number: number) {
+    let stars = "";
+    for (let i = 0; i < number; i++) {
+        stars += "❤️"
+    }
+    if (number < 5) {
+        let lefting = 5 - number;
+        for (let i = 0; i < lefting; i++) {
+            stars += "🩶"
+        }
+    }
+    return stars;
 }
