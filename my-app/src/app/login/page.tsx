@@ -40,18 +40,18 @@ const Login = () => {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password })
       })
 
       const result = await res.json()
 
       if (res.ok) {
-        // Store user info if needed
         if (result.user) {
           localStorage.setItem('user', JSON.stringify(result.user))
         }
 
-        alert("Login Successful") // Replace with toast later
+        alert("Login Successful")
 
         // Redirect based on role or to home page
         if (result.user?.role === 'seller') {

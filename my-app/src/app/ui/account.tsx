@@ -9,28 +9,42 @@ type User = {
 
 const Account = () => {
     const [account, setAccount] = useState(false)
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<any>(null);
     const router = useRouter()
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user')
+        const storedUser = localStorage.getItem("user");
+
         if (storedUser) {
-            setUser(JSON.parse(storedUser))
+            setUser(JSON.parse(storedUser));
         }
 
-        const handleClick = () => setAccount(false)
-        document.body.addEventListener("click", handleClick)
+        const handleClick = () => setAccount(false);
+
+        document.addEventListener("click", handleClick);
 
         return () => {
-            document.body.removeEventListener("click", handleClick)
-        }
-    }, [])
+            document.removeEventListener("click", handleClick);
+        };
+    }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('user')
-        setUser(null)
-        router.push('/')
-    }
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/logout", {
+                method: "POST",
+                credentials: "include",
+            });
+
+            localStorage.removeItem("user");
+
+            setUser(null);
+            setAccount(false);
+
+            router.push("/");
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    };
 
     const goToDashboard = () => {
         if (user?.role === 'seller')

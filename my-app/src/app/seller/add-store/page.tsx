@@ -29,6 +29,7 @@ const Page = () => {
 
     if (!formData.name) {
       alert("Store name is required");
+      setIsLoading(false)
       return;
     }
 
@@ -44,8 +45,6 @@ const Page = () => {
           .replace(/^-+|-+$/g, ""),
     };
 
-    setIsLoading(true);
-
     const res = await fetch("/api/store", {
       method: "POST",
       headers: {
@@ -57,8 +56,14 @@ const Page = () => {
     const data = await res.json();
 
     if (!res.ok) {
-      console.error("STORE ERROR:", data);
       setIsLoading(false);
+
+      if (res.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+
+      alert(data?.error || "Something went wrong");
       return;
     }
 

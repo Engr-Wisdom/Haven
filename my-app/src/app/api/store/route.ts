@@ -5,15 +5,28 @@ import { cookies } from "next/headers";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
     const { name, bio, image, seo_url } = body;
 
-    const cookieStore = cookies();
-    const owner_id = (await cookieStore).get("user_id")?.value;
+    const cookieStore = await cookies();
+    const owner_id = cookieStore.get("user_id")?.value;
 
+    // ❌ Step 1: check cookie exists
     if (!owner_id) {
       return NextResponse.json(
-        { error: "Not authenticated" },
+        { error: "Not authenticated. Please login." },
+        { status: 401 }
+      );
+    }
+
+    // 🔥 Step 2: VERIFY USER EXISTS IN DB (IMPORTANT FIX)
+    const userCheck = await pool.query(
+      `SELECT id FROM users WHERE id = $1`,
+      [owner_id]
+    );
+
+    if (userCheck.rows.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid session. Please login again." },
         { status: 401 }
       );
     }
@@ -36,7 +49,7 @@ export async function POST(req: Request) {
       bio || "",
       image || "",
       seo_url ||
-        name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
+        name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
       owner_id,
     ];
 
@@ -44,7 +57,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(result.rows[0], { status: 201 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("STORE API ERROR:", error);
 
     return NextResponse.json(
