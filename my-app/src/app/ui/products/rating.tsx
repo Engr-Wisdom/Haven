@@ -1,8 +1,8 @@
 import { Product } from "@/app/lib/definitions";
-import { numberToStars } from "@/app/lib/utils";
+import { numberToHearts } from "@/app/lib/utils";
 export default function Rating({ product }: { product: Product }) {
     let starsN = Math.round(product.rating);
-    const stars = numberToStars(starsN);
+    const stars = numberToHearts(starsN);
 
     return <div className="flex items-center">
         <span>{stars}</span>
